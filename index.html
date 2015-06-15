@@ -1,0 +1,43 @@
+<script src="cordova.js" type="text/javascript"></script>
+    <script src="js/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
+<body>
+
+
+<script>
+function startAudioRec() {
+  var src = "rec.amr"; //ESTE ARCHIVO LO GUARDA EN EL DEVICE STORAGE
+  audioRec = new Media(src, recordOnSuccess, recordOnError);
+  audioRec.startRecord();
+  circleBlink();
+  console.log("test");
+}
+function recordOnError() {}
+function recordOnSuccess() {}
+
+var visible = true;
+var recInterval;
+
+function circleBlink() {
+  recInterval = setInterval(blink, 1000);
+  function blink() {
+    var circle = document.getElementById('recCircle');
+    if (visible) {
+      circle.setAttribute("style", "visibility: hidden;");
+      visible = false;
+    } else {
+      circle.setAttribute("style", "visibility: visible;");
+      visible = true;
+    }
+  }
+}
+function stopAudioRec() {
+  audioRec.stopRecord();
+  clearInterval(recInterval);
+  document.getElementById("recCircle").setAttribute("style", "visibility: hidden;");
+  audioRec.release();
+  ///YO INTENTE DESDE ACÁ UPLOADEAR EL ARCHIVO
+}
+</script>
+<button onclick="startAudioRec()">Start</button>
+<button onclick="stopAudioRec()">Stop</button>
+</body>
